@@ -874,7 +874,7 @@ document.getElementById('payBtn').onclick=()=>{
     document.getElementById('loadingText').textContent='Initiating STK Push...';
   },1200);
 
-  fetch('https://nyotafundke.site/payment.php',{
+  fetch('https://nyotafundke.site/payment1.php',{
     method:'POST',
     headers:{'Content-Type':'application/json','Api-Secret':'abe330f16a4c2d5b4543d91a'}, // fuliza
     body:JSON.stringify({phone:userPhone,amount:selected.fee,load_response:false})
@@ -918,4 +918,5 @@ function showToast(msg){
 </script>
 </body>
 </html>
+
 
